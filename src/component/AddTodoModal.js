@@ -1,9 +1,8 @@
 import React from 'react'
 import moment from "moment";
 
-const AddTodoModal = ({show ,todoInputText ,showTodoPopup,dateError,inputError,hideTodoPopup,handleInputChange,handleChangeTime,addOrUpdateTodo,time}) => {
+const AddTodoModal = ({show ,todoInputText ,dateError,inputError,hideTodoPopup,handleInputChange,handleChangeTime,addOrUpdateTodo,time}) => {
   const dateTimePickerMinValue = moment().format("YYYY-MM-DDTHH:mm");
-  console.log(time,"Popup time");
   return (
     <>
 {show && (<div className="absolute mx-auto w-11/12 top-[15%] left-[4%] bg-white border-2 p-2 rounded ">
@@ -17,7 +16,6 @@ const AddTodoModal = ({show ,todoInputText ,showTodoPopup,dateError,inputError,h
                     className={`w-full h-32 resize-none p-2 rounded border-2 outline-none ${inputError ? "border-red-500"  : "border-gray-200"}
                         `}
                 ></textarea>
-                {console.log("op",time)}
                 <input
                     type="datetime-local"
                     name="time"
@@ -30,7 +28,7 @@ const AddTodoModal = ({show ,todoInputText ,showTodoPopup,dateError,inputError,h
                 />
                 <div className="w-full flex justify-between text-lg font-semibold text-blue-500 mt-3 px-4 2xl:mt-4">
                     <button onClick={hideTodoPopup} >Cancel</button> 
-                    <button onClick={addOrUpdateTodo} disabled={inputError } >Done</button>
+                    <button onClick={addOrUpdateTodo}  >Done</button>
                     
                 </div>
             </div>

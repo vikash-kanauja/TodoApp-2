@@ -13,9 +13,10 @@ const Todos = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [todoInputText, setTodoInputText] = useState("");
   const [inputError, setInputError] = useState(false);
+  const [dateError,setDateError] = useState(false)
   const [deleteTodoId, setDeleteTodoId] = useState(null);
   const [editTodoId, setEditTodoId] = useState(null);
-  const [currentDateAndTime, setCurrentDateAndTime] = useState(moment().format('MMMM Do YYYY, h:mm:ss a'))
+  const [currentDateAndTime, setCurrentDateAndTime] = useState(moment().format('YYYY-MM-DDTHH:mm'))
   const [time, setTime] = useState(moment().format('YYYY-MM-DDTHH:mm'))
 
   const showTodoPopup = () => {
@@ -23,6 +24,8 @@ const Todos = () => {
   }
   const hideTodoPopup = () => {
     setIsShowTodoPopup(false);
+    setTime(moment().format('YYYY-MM-DDTHH:mm'))
+    setTodoInputText("")
   }
   const showDeletePopupModal = (id) => {
     setDeleteTodoId(id)
@@ -34,27 +37,43 @@ const Todos = () => {
   const handleInputChange = (e) => {
     const value = e.target.value;
     setTodoInputText(value);
-    setInputError(!(value.trim() !== ""));
+    setInputError((value.trim() === ""));
   };
   const handleChangeTime = (e) => {
-    console.log(e.target.value, "target");
     setTime(e.target.value)
   }
-
   const editTodo = (todo) => {
     setEditTodoId(todo.id);
     setTodoInputText(todo.task)
     setTime(todo.time)
-    console.log("update", time);
     showTodoPopup();
   }
 
   const addOrUpdateTodo = () => {
+    const currentTime = moment();
+    const selectedTime = moment(time);
+  
+    if (selectedTime.isBefore(currentTime)  ) {
+      setDateError(true); 
+      
+      return;
+    } else {
+      setDateError(false); 
+     
+    }
+    if(todoInputText.trim() === ""){
+      setInputError(true);
+      return;
+    }
+    else{
+      setInputError(false);
+    }
+
     if (editTodoId) {
       setTodoList(
         todoList.map((t) => {
           if (t.id === editTodoId) {
-            return { ...t, task: todoInputText, time: time }
+            return { ...t, task: todoInputText.trim(), time: time }
           } else {
             return t;
           }
@@ -64,12 +83,11 @@ const Todos = () => {
       setTodoInputText("");
       setTime(moment().format('YYYY-MM-DDTHH:mm'))
       hideTodoPopup();
-      // console.log(time);
     } else {
       setTodoList((prevlist) => [
         {
           id: Date.now(),
-          task: todoInputText,
+          task: todoInputText.trim(),
           time: time,
           color: "green",
           completed: false,
@@ -82,12 +100,22 @@ const Todos = () => {
     }
   }
   const deleteFun = (id) => {
-
     setTodoList(todoList.filter((todo) => todo.id !== id));
     setDeleteTodoId(null)
     setTodoInputText("");
     hideDeletePopModal();
   }
+  const TodoCompleteTask = (id) => {
+    setTodoList(
+        todoList.map((todo) => {
+            if (todo.id === id) {
+                return { ...todo, completed: !todo.completed };
+            } else {
+                return todo;
+            }
+        })
+    );
+};
   useEffect(() => {
     setInterval(() => {
       setCurrentDateAndTime(moment().format("YYYY-MM-DDTHH:mm"));
@@ -98,7 +126,7 @@ const Todos = () => {
 
     <div className="w-full mx-auto relative pb-10 px-3 border-2 shadow-md sm:w-3/5 md:w-2/4 lg:w-2/5 2xl:w-2/6">
       <Navbar currentDateAndTime={currentDateAndTime} />
-      <div className="flex justify-between items-center px-3 mt-2 mb-6">
+      <div className="flex justify-between items-center mt-2 mb-6">
         <h1 className="text-3xl font-bold">Today</h1>
         <div className="text-3xl text-blue-500 cursor-pointer" onClick={showTodoPopup}>
           <FiPlusCircle />
@@ -113,6 +141,7 @@ const Todos = () => {
         todoList.map((todo, index) => {
           return <TodoItem
             todo={todo}
+            TodoCompleteTask={TodoCompleteTask}
             deletePopup={showDeletePopupModal}
             updatePopup={showTodoPopup}
             editTodo={editTodo}
@@ -125,14 +154,18 @@ const Todos = () => {
         handleInputChange={handleInputChange}
         todoInputText={todoInputText}
         addOrUpdateTodo={addOrUpdateTodo}
-        showTodoPopup={showTodoPopup}
         hideTodoPopup={hideTodoPopup}
-        currentDateAndTime={currentDateAndTime}
         time={time}
         inputError={inputError}
+        dateError={dateError}
         handleChangeTime={handleChangeTime}
       />
-      <DeleteTodoModal show={isShowDeleteModal} showDeletePopupModal={showDeletePopupModal} hideDeletePopModal={hideDeletePopModal} deleteFun={deleteFun} id={deleteTodoId} />
+      <DeleteTodoModal
+        show={isShowDeleteModal}
+        showDeletePopupModal={showDeletePopupModal}
+        hideDeletePopModal={hideDeletePopModal}
+        deleteFun={deleteFun} id={deleteTodoId}
+      />
 
     </div>
 

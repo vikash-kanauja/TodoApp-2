@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DeleteTodoModal = ({showDeletePopupModal,show,deleteTodoId,deleteFun ,hideDeletePopModal,id}) => {
+const DeleteTodoModal = ({show,deleteFun ,hideDeletePopModal,id}) => {
   return (
 <>
     { 

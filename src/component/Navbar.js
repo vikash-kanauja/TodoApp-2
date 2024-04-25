@@ -7,11 +7,11 @@ import { IoIosBatteryFull } from "react-icons/io";
 const Navbar = ({currentDateAndTime}) => {
   return (
     <div className='flex justify-between items-center font-medium	'>
-      <div className=''>{ moment().format('h:mm')
-}</div>
+      <div className=''>{ moment(currentDateAndTime).format('h:mm')}
+</div>
       <div className='flex gap-1'>
-      <FaWifi />
       <FaSignal/>
+      <FaWifi />
       <IoIosBatteryFull/>
       </div>
       
