@@ -5,7 +5,6 @@ import { BiAlarm } from "react-icons/bi";
 import moment from 'moment';
 
 const TodoItem = ({ todo, deletePopup, TodoCompleteTask, editTodo }) => {
-
   return (
     <div>
       <div className='flex justify-between py-4 border-b w-[100%] '>
@@ -27,8 +26,11 @@ const TodoItem = ({ todo, deletePopup, TodoCompleteTask, editTodo }) => {
         </div>
 
         <div className='flex justify-center items-center gap-2 w-[21%] '>
-          <div className={`rounded-full dot w-3 h-3 ${moment(todo.time).isBefore(moment(), "minute")
-            ? "bg-red-500" : todo.completed ? "bg-green-500" : "bg-purple-500"}`}></div>
+          
+          <div className={`rounded-full dot w-3 h-3 ${
+              
+            (todo.completed ? "bg-green-500" : moment(todo.time).isBefore(moment(), "minute") ? "bg-red-500" : "bg-purple-500")
+          }`}></div>
           <div className='cursor-pointer' onClick={() => deletePopup(todo.id)}><MdDelete className='text-red-500' /></div>
           <div className="cursor-pointer" onClick={() => editTodo(todo)}><MdModeEditOutline /></div>
 
