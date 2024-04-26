@@ -6,7 +6,7 @@ const AddTodoModal = ({
   todoInputText,
   handleInput,
   error,
-  toggleTodoPopup,
+  TodoPopupModal,
   addOrUpdateTodo,
   time,
 }) => {
@@ -37,7 +37,7 @@ const AddTodoModal = ({
               } 2xl:mt-2 focus:outline-none`}
           />
           <div className="w-full flex justify-between text-lg font-semibold text-blue-500 mt-3 px-4 2xl:mt-4">
-            <button onClick={toggleTodoPopup}>Cancel</button>
+            <button onClick={TodoPopupModal}>Cancel</button>
             <button onClick={addOrUpdateTodo}>Done</button>
           </div>
         </div>

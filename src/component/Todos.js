@@ -8,7 +8,6 @@ import AddTodoModal from "./AddTodoModal";
 import DeleteTodoModal from "./DeleteTodoModal";
 const Todos = () => {
   const [todoList, setTodoList] = useState([]);
-  // .....
   const [showOrHideTodoModal, setShowOrHideTodoModal] = useState(false);
   const [showOrHideDeleteModal, setShowOrHideDeleteModal] = useState(false); // State for showing/hiding delete todo modal
   const [todoInputText, setTodoInputText] = useState("");
@@ -25,14 +24,14 @@ const Todos = () => {
 
   // Function to show and hide add todo modal
 
-  const toggleTodoPopup = () => {
+  const TodoPopupModal = () => {
     setShowOrHideTodoModal((prevState) => !prevState);
     setTime(moment().format("YYYY-MM-DDTHH:mm"));
     setTodoInputText(""); // Clear input text when toggling
   };
 
   // Function to toggle delete todo modal (show/hide)
-  const toggleDeleteModal = (id = null) => {
+  const DeletePopupModal = (id = null) => {
     setDeleteTodoId(id);
     setShowOrHideDeleteModal((prevState) => !prevState);
   };
@@ -57,7 +56,7 @@ const Todos = () => {
 
   // Function to edit a todo item
   const editTodo = (todo) => {
-    toggleTodoPopup();
+    TodoPopupModal();
     setEditTodoId(todo.id);
     setTodoInputText(todo.task);
     setTime(todo.time);
@@ -107,7 +106,7 @@ const Todos = () => {
       setEditTodoId(null);
       setTodoInputText("");
       setTime(moment().format("YYYY-MM-DDTHH:mm"));
-      toggleTodoPopup();
+      TodoPopupModal();
     } else {
       setTodoList((prevlist) => [
         // Add new todo item
@@ -121,7 +120,7 @@ const Todos = () => {
         ...prevlist,
       ]);
       setTodoInputText("");
-      toggleTodoPopup();
+      TodoPopupModal();
       setTime(moment().format("YYYY-MM-DDTHH:mm"));
     }
   };
@@ -130,7 +129,7 @@ const Todos = () => {
     setTodoList(todoList.filter((todo) => todo.id !== id));
     setDeleteTodoId(null);
     setTodoInputText("");
-    toggleDeleteModal();
+    DeletePopupModal();
   };
   // Function to toggle todo completion status
   const TodoCompleteTask = (id) => {
@@ -152,13 +151,13 @@ const Todos = () => {
   }, []);
 
   return (
-    <div className="w-full mx-auto relative pb-10 px-3 border-2 shadow-md sm:w-3/5 md:w-2/4 lg:w-2/5 2xl:w-2/6">
+    <div className="w-full mx-auto relative pb-10 px-3 border-2 shadow-md sm:w-3/5 md:w-2/4 lg:w-2/5 2xl:w-2/6 mt-12 2xl:mt-15">
       <Navbar currentDateAndTime={currentDateAndTime} />
       <div className="flex justify-between items-center mt-2 mb-6">
         <h1 className="text-3xl font-bold">Today</h1>
         <div
           className="text-3xl text-blue-500 cursor-pointer"
-          onClick={toggleTodoPopup}
+          onClick={TodoPopupModal}
         >
           <FiPlusCircle />
         </div>
@@ -169,25 +168,24 @@ const Todos = () => {
           <TodoItem
             todo={todo}
             TodoCompleteTask={TodoCompleteTask}
-            deletePopup={toggleDeleteModal}
-            updatePopup={toggleTodoPopup}
+            deletePopup={DeletePopupModal}
             editTodo={editTodo}
             key={index}
           />
         );
       })}
       <AddTodoModal
-      showOrHideTodoModal={showOrHideTodoModal}
+        showOrHideTodoModal={showOrHideTodoModal}
         todoInputText={todoInputText}
         addOrUpdateTodo={addOrUpdateTodo}
-        toggleTodoPopup={toggleTodoPopup}
+        TodoPopupModal={TodoPopupModal}
         time={time}
         error={error}
         handleInput={handleInput}
       />
       <DeleteTodoModal
-      showOrHideDeleteModal={showOrHideDeleteModal}
-        toggleDeleteModal={toggleDeleteModal}
+        showOrHideDeleteModal={showOrHideDeleteModal}
+        DeletePopupModal={DeletePopupModal}
         deleteTodo={deleteTodo}
         id={deleteTodoId}
       />
