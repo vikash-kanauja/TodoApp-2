@@ -9,51 +9,63 @@ import DeleteTodoModal from './DeleteTodoModal';
 const Todos = () => {
   const [todoList, setTodoList] = useState([]);
   const [isShowTodoPopup, setIsShowTodoPopup] = useState(false);
-  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false); // State for showing/hiding delete todo modal
   const [todoInputText, setTodoInputText] = useState("");
   const [inputError, setInputError] = useState(false);
   const [dateError,setDateError] = useState(false)
   const [deleteTodoId, setDeleteTodoId] = useState(null);
   const [editTodoId, setEditTodoId] = useState(null);
-  const [currentDateAndTime, setCurrentDateAndTime] = useState(moment().format('YYYY-MM-DDTHH:mm'))
+  const [currentDateAndTime, setCurrentDateAndTime] = useState(moment().format('YYYY-MM-DDTHH:mm'))   // State for current date and time
   const [time, setTime] = useState(moment().format('YYYY-MM-DDTHH:mm'))
 
+ // Function to show add todo modal
   const showTodoPopup = () => {
     setIsShowTodoPopup(true);
+    setTime(moment().format('YYYY-MM-DDTHH:mm'))  // Reset time when showing popup
   }
+   // Function to hide add todo modal
   const hideTodoPopup = () => {
     setIsShowTodoPopup(false);
     setTime(moment().format('YYYY-MM-DDTHH:mm'))
     setTodoInputText("")
   }
+
+    // Function to show delete todo modal
   const showDeletePopupModal = (id) => {
     setDeleteTodoId(id)
     setIsShowDeleteModal(true)
   }
+  // Function to hide delete todo modal
   const hideDeletePopModal = () => {
     setIsShowDeleteModal(false)
   }
+  // Function to handle input change in add todo modal
   const handleInputChange = (e) => {
     const value = e.target.value;
     setTodoInputText(value);
-    setInputError((value.trim() === ""));
+    setInputError((value.trim() === ""));    // Set input error
   };
+
+   // Function to handle time change in add todo modal
   const handleChangeTime = (e) => {
     setTime(e.target.value)
   }
+
+  // Function to edit a todo item
   const editTodo = (todo) => {
+    showTodoPopup();
     setEditTodoId(todo.id);
     setTodoInputText(todo.task)
     setTime(todo.time)
-    showTodoPopup();
+    
   }
-
+// Function to add or update a todo item
   const addOrUpdateTodo = () => {
     const currentTime = moment();
     const selectedTime = moment(time);
   
     if (selectedTime.isBefore(currentTime)  ) {
-      setDateError(true); 
+      setDateError(true);   // Set date error if selected time is before current time
       
       return;
     } else {
@@ -61,14 +73,15 @@ const Todos = () => {
      
     }
     if(todoInputText.trim() === ""){
-      setInputError(true);
+      setInputError(true);   // Set input error if input text is empty
       return;
     }
     else{
       setInputError(false);
     }
 
-    if (editTodoId) {
+    if (editTodoId) {                 
+      // Add or update todo item
       setTodoList(
         todoList.map((t) => {
           if (t.id === editTodoId) {
@@ -83,7 +96,7 @@ const Todos = () => {
       setTime(moment().format('YYYY-MM-DDTHH:mm'))
       hideTodoPopup();
     } else {
-      setTodoList((prevlist) => [
+      setTodoList((prevlist) => [       // Add new todo item
         {
           id: Date.now(),
           task: todoInputText.trim(),
@@ -98,12 +111,14 @@ const Todos = () => {
       setTime(moment().format('YYYY-MM-DDTHH:mm'))
     }
   }
+   // Function to delete a todo item
   const deleteFun = (id) => {
     setTodoList(todoList.filter((todo) => todo.id !== id));
     setDeleteTodoId(null)
     setTodoInputText("");
     hideDeletePopModal();
   }
+   // Function to toggle todo completion status
   const TodoCompleteTask = (id) => {
     setTodoList(
         todoList.map((todo) => {
@@ -115,6 +130,7 @@ const Todos = () => {
         })
     );
 };
+// Update current date and time every second
   useEffect(() => {
     setInterval(() => {
       setCurrentDateAndTime(moment().format("YYYY-MM-DDTHH:mm"));

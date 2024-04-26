@@ -12,10 +12,11 @@ const AddTodoModal = ({
   addOrUpdateTodo,
   time,
 }) => {
+  // Minimum value for the date-time picker
   const dateTimePickerMinValue = moment().format("YYYY-MM-DDTHH:mm");
   return (
     <>
-      {show && (
+      {show && (              // Render the modal if `show` is true
         <div className="absolute mx-auto w-11/12 top-[15%] left-[4%] bg-white border-2 p-2 rounded ">
           <p className="text-lg font-semibold mb-2 2xl:text-xl 2xl:mb-4"></p>
           <textarea
