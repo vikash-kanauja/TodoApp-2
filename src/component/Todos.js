@@ -24,14 +24,14 @@ const Todos = () => {
 
   // Function to show and hide add todo modal
 
-  const TodoPopupModal = () => {
+  const openOrCloseAddPopupModal = () => {
     setShowOrHideTodoModal((prevState) => !prevState);
     setTime(moment().format("YYYY-MM-DDTHH:mm"));
     setTodoInputText(""); // Clear input text when toggling
   };
 
   // Function to toggle delete todo modal (show/hide)
-  const DeletePopupModal = (id = null) => {
+  const openOrCloseDeletePopupModal = (id = null) => { 
     setDeleteTodoId(id);
     setShowOrHideDeleteModal((prevState) => !prevState);
   };
@@ -56,7 +56,7 @@ const Todos = () => {
 
   // Function to edit a todo item
   const editTodo = (todo) => {
-    TodoPopupModal();
+    openOrCloseAddPopupModal();
     setEditTodoId(todo.id);
     setTodoInputText(todo.task);
     setTime(todo.time);
@@ -106,7 +106,7 @@ const Todos = () => {
       setEditTodoId(null);
       setTodoInputText("");
       setTime(moment().format("YYYY-MM-DDTHH:mm"));
-      TodoPopupModal();
+      openOrCloseAddPopupModal();
     } else {
       setTodoList((prevlist) => [
         // Add new todo item
@@ -120,7 +120,7 @@ const Todos = () => {
         ...prevlist,
       ]);
       setTodoInputText("");
-      TodoPopupModal();
+      openOrCloseAddPopupModal();
       setTime(moment().format("YYYY-MM-DDTHH:mm"));
     }
   };
@@ -129,7 +129,7 @@ const Todos = () => {
     setTodoList(todoList.filter((todo) => todo.id !== id));
     setDeleteTodoId(null);
     setTodoInputText("");
-    DeletePopupModal();
+    openOrCloseDeletePopupModal();
   };
   // Function to toggle todo completion status
   const TodoCompleteTask = (id) => {
@@ -157,7 +157,7 @@ const Todos = () => {
         <h1 className="text-3xl font-bold">Today</h1>
         <div
           className="text-3xl text-blue-500 cursor-pointer"
-          onClick={TodoPopupModal}
+          onClick={openOrCloseAddPopupModal}
         >
           <FiPlusCircle />
         </div>
@@ -168,7 +168,7 @@ const Todos = () => {
           <TodoItem
             todo={todo}
             TodoCompleteTask={TodoCompleteTask}
-            deletePopup={DeletePopupModal}
+            deletePopup={openOrCloseDeletePopupModal}
             editTodo={editTodo}
             key={index}
           />
@@ -178,14 +178,14 @@ const Todos = () => {
         showOrHideTodoModal={showOrHideTodoModal}
         todoInputText={todoInputText}
         addOrUpdateTodo={addOrUpdateTodo}
-        TodoPopupModal={TodoPopupModal}
+        openOrCloseAddPopupModal={openOrCloseAddPopupModal}
         time={time}
         error={error}
         handleInput={handleInput}
       />
       <DeleteTodoModal
         showOrHideDeleteModal={showOrHideDeleteModal}
-        DeletePopupModal={DeletePopupModal}
+        openOrCloseDeletePopupModal={openOrCloseDeletePopupModal}
         deleteTodo={deleteTodo}
         id={deleteTodoId}
       />
