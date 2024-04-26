@@ -4,7 +4,7 @@ import { MdModeEditOutline } from "react-icons/md";
 import { BiAlarm } from "react-icons/bi";
 import moment from 'moment';
 
-const TodoItem = ({ todo, deletePopup, TodoCompleteTask, updatePopup, editTodo }) => {
+const TodoItem = ({ todo, deletePopup, TodoCompleteTask, editTodo }) => {
 
   return (
     <div>
