@@ -7,7 +7,6 @@ import TodoItem from './TodoItem';
 import AddTodoModal from './AddTodoModal'
 import DeleteTodoModal from './DeleteTodoModal';
 const Todos = () => {
-
   const [todoList, setTodoList] = useState([]);
   const [isShowTodoPopup, setIsShowTodoPopup] = useState(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
