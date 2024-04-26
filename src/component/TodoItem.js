@@ -14,7 +14,7 @@ const TodoItem = ({ todo, deletePopup, TodoCompleteTask, editTodo }) => {
             type='checkbox'
             checked={todo.completed}
             onChange={() => TodoCompleteTask(todo.id)}
-
+            className='cursor-pointer	'
           />
 
           <div className="text-base break-words w-[70%] pl-2">
@@ -33,8 +33,8 @@ const TodoItem = ({ todo, deletePopup, TodoCompleteTask, editTodo }) => {
               ? "bg-green-500"
               : "bg-purple-500"
             }`}></div>
-          <div onClick={() => deletePopup(todo.id)}><MdDelete className='text-red-500' /></div>
-          <div onClick={() => editTodo(todo)}><MdModeEditOutline /></div>
+          <div className='cursor-pointer	' onClick={() => deletePopup(todo.id)}><MdDelete className='text-red-500' /></div>
+          <div className="cursor-pointer	" onClick={() => editTodo(todo)}><MdModeEditOutline /></div>
 
         </div>
       </div>

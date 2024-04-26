@@ -36,7 +36,7 @@ const AddTodoModal = ({
             value={time}
             min={dateTimePickerMinValue}
             onChange={handleChangeTime}
-            className={`w-full rounded p-2 border-2  ${
+            className={`w-full rounded p-2 border-2 cursor-pointer	 ${
               dateError ? "border-red-500" : "border-gray-200"
             } 2xl:mt-2 focus:outline-none`}
           />
